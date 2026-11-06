@@ -16,7 +16,7 @@ const DUMMY_PLACES = [
   },
   {
     id: 'p2',
-    title: 'Empire State Building',
+    title: 'Emp. State Building',
     description: 'One of the most famous buildings in the world.',
     imageUrl:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcfLyZjs0XOzpE8v3b4oMey0TScYuo-AqKL2J05Ty5Hg&s=10',
