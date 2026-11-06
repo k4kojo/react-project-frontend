@@ -7,6 +7,7 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
 } from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hook';
 import './PlaceForm.css';
 
 const DUMMY_PLACES = [
@@ -37,6 +38,25 @@ const UpdatePlace = () => {
 
   const identifiedPlace = DUMMY_PLACES.find((place) => place.id === placeId);
 
+  const [formState, inputHandler] = useForm(
+    {
+      title: {
+        value: identifiedPlace.title,
+        isValid: true,
+      },
+      description: {
+        value: identifiedPlace.description,
+        isValid: true,
+      },
+    },
+    true,
+  );
+
+  const updatePlaceSubmitHandler = (event) => {
+    event.preventDefault();
+    console.log(formState.inputs); // Send this to the backend!
+  };
+
   if (!identifiedPlace) {
     return (
       <div className="center">
@@ -45,7 +65,7 @@ const UpdatePlace = () => {
     );
   }
   return (
-    <form className="place-form">
+    <form className="place-form" onSubmit={updatePlaceSubmitHandler}>
       <Input
         id="title"
         element="input"
@@ -53,9 +73,9 @@ const UpdatePlace = () => {
         label="Title"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid title."
-        onInput={() => {}}
-        initialValue={identifiedPlace.title}
-        initialValid={true}
+        onInput={inputHandler}
+        initialValue={formState.inputs.title.value}
+        initialValid={formState.inputs.title.isValid}
       />
       <Input
         id="description"
@@ -64,11 +84,11 @@ const UpdatePlace = () => {
         label="Description"
         validators={[VALIDATOR_MINLENGTH(5)]}
         errorText="Please enter a valid description (at least 5 characters)."
-        onInput={() => {}}
-        initialValue={identifiedPlace.description}
-        initialValid={true}
+        onInput={inputHandler}
+        initialValue={formState.inputs.description.value}
+        initialValid={formState.inputs.description.isValid}
       />
-      <Button type="submit" disabled={!true}>
+      <Button type="submit" disabled={!formState.isValid}>
         UPDATE PLACE
       </Button>
     </form>
