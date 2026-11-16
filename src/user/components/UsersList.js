@@ -17,14 +17,14 @@ const UsersList = ({ items }) => {
 
   return (
     <ul className="users-list">
-      {items.map(({ id, image, name, places }) => {
+      {items.map((user) => {
         return (
           <UserItem
-            key={id}
-            id={id}
-            image={image}
-            name={name}
-            placeCount={places}
+            key={user.id}
+            id={user.id}
+            image={user.image}
+            name={user.name}
+            placeCount={user.places.length}
           />
         );
       })}
