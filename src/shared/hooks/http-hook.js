@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
   const activeHttpRequest = useRef([]);
 
@@ -21,15 +21,18 @@ export const useHttpClient = () => {
 
         const responseData = await response.json();
 
+        activeHttpRequest.current = activeHttpRequest.current.filter(
+          (reqCtrl) => reqCtrl !== httpAbortCtrl,
+        );
+
         if (!response.ok) {
           throw new Error(responseData.message);
         }
 
         return responseData;
       } catch (err) {
-        setIsLoading(false);
-        console.log(err);
         setError(err.message || 'Something went wrong, please try again');
+        throw err;
       } finally {
         setIsLoading(false);
       }
