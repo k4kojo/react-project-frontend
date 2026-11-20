@@ -12,7 +12,7 @@ const Users = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          'http://localhost:5001/api/users',
+          process.env.RACT_APP_BACKEND_URL + '/users',
         );
 
         setLoadedUsers(responseData.users);
